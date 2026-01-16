@@ -22,8 +22,8 @@ import { TaskFormComponent } from '../task-form/task-form.component';
         <p>Cargando tareas...</p>
       </div>
 
-      <ul role="list" class="divide-y divide-gray-200" *ngIf="!isLoading() && tasks.length > 0; else noTasks">
-        <li *ngFor="let task of tasks">
+      <ul role="list" class="divide-y divide-gray-200" *ngIf="!isLoading() && tasks().length > 0; else noTasks">
+        <li *ngFor="let task of tasks()">
           <div class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition">
             <div class="flex items-center justify-between">
               <div class="flex-1 min-w-0 pr-4 flex items-start">
@@ -84,7 +84,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 export class TaskListComponent implements OnInit {
   private taskService = inject(TaskService);
   @Input() userId?: number;
-  tasks: Task[] = [];
+  tasks = signal<Task[]>([]);
 
   showModal = false;
   currentTask: Task | null = null;
@@ -102,7 +102,7 @@ export class TaskListComponent implements OnInit {
 
     request.subscribe({
       next: (data) => {
-        this.tasks = data;
+        this.tasks.update(() => data);
       },
       error: (err) => {
         console.error(err);
@@ -135,10 +135,11 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(task: Task) {
-    if (confirm(`¿Estás seguro de que quieres eliminar "${task.title}"?`)) {
+    const confirmDelete = confirm(`¿Estás seguro de que quieres eliminar "${task.title}"?`);
+    if (`${confirmDelete}` === 'true') {
       this.taskService.deleteTask(task.id!).subscribe({
         next: () => {
-          this.tasks = this.tasks.filter(t => t.id !== task.id);
+          this.tasks.update(tasks => tasks.filter(t => t.id !== task.id));
         },
         error: (err) => alert('Error al eliminar la tarea')
       });
