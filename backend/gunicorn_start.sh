@@ -1,13 +1,13 @@
 #!/bin/bash
 
-NAME="taskmanager"                                  # Name of the application
+NAME="backend"                                  # Name of the application
 DJANGODIR=/home/luism27/projects/task-manager/backend              # Django project root directory
 SOCKFILE=/home/luism27/projects/task-manager/backend/run/gunicorn.sock  # Gunicorn socket path
 LOGDIR=logs/                # Log directory
 USER=luism27                                # The user to run as
 GROUP=webdata                                     # The group to run as
 NUM_WORKERS=3                                     # Number of worker processes (usually 2*CPU + 1)
-DJANGO_WSGI_MODULE=taskmanager.wsgi                 # WSGI module name
+DJANGO_WSGI_MODULE=backend.wsgi                 # WSGI module name
 
 echo "Starting $NAME with Gunicorn"
 
