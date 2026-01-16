@@ -11,6 +11,14 @@ import { NavComponent } from "../navigator/nav.component";
   imports: [CommonModule, RouterModule, NavComponent],
   template: `
     <app-nav title="Admin Dashboard"></app-nav>
+    @if (error()) {
+      <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-md flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-3" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-sm text-red-700 font-medium">{{ error() }}</span>
+      </div>
+    }
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="px-4 py-6 sm:px-0">
         
@@ -53,6 +61,7 @@ import { NavComponent } from "../navigator/nav.component";
 export class AdminDashboardComponent implements OnInit {
   private userService = inject(UserService);
   users = signal<User[]>([]);
+  error = signal<string>('');
 
   ngOnInit() {
     this.loadUsers();
@@ -61,10 +70,11 @@ export class AdminDashboardComponent implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        console.log(data);
         this.users.set(data);
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        this.error.set(err.error?.message || 'Error al obtener los usuarios');
+      }
     });
   }
 
@@ -78,8 +88,16 @@ export class AdminDashboardComponent implements OnInit {
 
   demoteUser(user: User) {
     if (confirm(`Remove admin rights from ${user.username}?`)) {
-      this.userService.removeAdmin(user.id!).subscribe(() => {
-        this.loadUsers();
+      this.userService.removeAdmin(user.id!).subscribe({
+        next: () => {
+          this.loadUsers();
+        },
+        error: (err) => {
+          this.error.set(err.error?.error || 'Error al quitar los permisos de administrador');
+          setTimeout(() => {
+            this.error.set('');
+          }, 3000);
+        }
       });
     }
   }

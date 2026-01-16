@@ -102,14 +102,12 @@ export class TaskListComponent implements OnInit {
 
     request.subscribe({
       next: (data) => {
-        console.log(`data: ${data}`)
         this.tasks = data;
       },
       error: (err) => {
         console.error(err);
       },
       complete: () => {
-        console.log('is completed')
         this.isLoading.update(() => false)
       }
     });

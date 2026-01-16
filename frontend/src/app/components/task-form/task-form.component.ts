@@ -110,7 +110,6 @@ export class TaskFormComponent implements OnInit {
   onSubmit() {
     if (this.taskForm.valid) {
       this.isLoading.update(() => true)
-      console.log(this.userId)
       const taskData = {
         ...this.taskForm.value,
         user: this.userId || this.currentUser?.id
