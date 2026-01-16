@@ -1,0 +1,47 @@
+# Python
+# Virtual environment
+venv/
+env/
+myenv/
+.venv/
+*/venv/
+*/env/
+
+# Byte-code files
+*.pyc
+__pycache__/
+*~
+*.swp
+
+# Operating System and IDE-specific files
+.DS_Store # Mac
+.vscode/ # VS Code settings
+.idea/ # PyCharm settings
+
+# Django-specific files
+# Database
+*.sqlite3
+db.sqlite3
+
+# Media and static files (generated, usually stored externally in production)
+/media
+/static
+
+# Local settings (containing sensitive info)
+local_settings.py
+
+# Dependency management
+pip-wheel-metadata/
+.pip-node-cache/
+.tox/
+.coverage
+
+# Pytest cache
+.pytest_cache/
+
+# Celery
+celerybeat.pid
+
+# Flask/Django etc.
+instance/
+.python-version
