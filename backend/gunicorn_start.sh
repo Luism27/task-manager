@@ -24,6 +24,7 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 exec /home/luism27/projects/task-manager/backend/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $NUM_WORKERS \
+  --bind 0.0.0.0:8000 \
   --user=$USER --group=$GROUP \
   --bind=unix:$SOCKFILE \
   --log-level=info \
