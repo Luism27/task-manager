@@ -27,6 +27,7 @@ SECRET_KEY = "django-insecure-+@p=1v5re+z#4b*#c=-_!#bxs_h4xhs$mlxxnf3ei35w*@2yxu
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     '217.216.48.215',
     'api-task-manager.marquezluis.dev'
 ]
