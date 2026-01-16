@@ -21,7 +21,7 @@ source venv/bin/activate
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 # Start your Django Unicorn
-exec /usr/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+exec /home/luism27/projects/task-manager/backend/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $NUM_WORKERS \
   --user=$USER --group=$GROUP \
