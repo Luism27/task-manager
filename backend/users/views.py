@@ -34,7 +34,11 @@ class LoginView(APIView):
     
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            return Response({
+                'error': 'Usuario o contraseña incorrectos'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+            
         user = serializer.validated_data
         
         # Generar tokens JWT
