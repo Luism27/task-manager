@@ -79,7 +79,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   promoteUser(user: User) {
-    if (confirm(`Promote ${user.username} to admin?`)) {
+    const confirmPromote = confirm(`Promote ${user.username} to admin?`);
+    if (`${confirmPromote}` === 'true') {
       this.userService.makeAdmin(user.id!).subscribe(() => {
         this.loadUsers();
       });
@@ -87,7 +88,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   demoteUser(user: User) {
-    if (confirm(`Remove admin rights from ${user.username}?`)) {
+    const confirmDemote = confirm(`Remove admin rights from ${user.username}?`);
+    if (`${confirmDemote}` === 'true') {
       this.userService.removeAdmin(user.id!).subscribe({
         next: () => {
           this.loadUsers();
@@ -103,7 +105,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    if (confirm(`Permanently delete ${user.username}?`)) {
+    const confirmDelete = confirm(`Permanently delete ${user.username}?`);
+    if (`${confirmDelete}` === 'true') {
       this.userService.deleteUser(user.id!).subscribe(() => {
         this.users.update((users) => users.filter(u => u.id !== user.id));
       });
